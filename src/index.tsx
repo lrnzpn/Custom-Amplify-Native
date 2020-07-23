@@ -29,32 +29,25 @@ const LightTheme = {
 }
 
 const MEMORY_KEY_PREFIX = '@MyStorage:'
-
 let dataMemory: any = {}
-
 class MyStorage {
-  // the promise returned from sync function
   static syncPromise = null
 
-  // set item with the key
-  static setItem(key: string, value: string): string {
+  static setItem(key: string, value: string): boolean {
     Keychain.setGenericPassword(MEMORY_KEY_PREFIX + key, value)
     dataMemory[key] = value
     return dataMemory[key]
   }
 
-  // get item with the key
-  static getItem(key: string): string {
+  static getItem(key: string): boolean {
     return Object.prototype.hasOwnProperty.call(dataMemory, key) ? dataMemory[key] : undefined
   }
 
-  // remove item with the key
   static removeItem(key: string): boolean {
     Keychain.resetGenericPassword()
     return delete dataMemory[key]
   }
 
-  // clear out the storage
   static clear(): object {
     dataMemory = {}
     return dataMemory
